@@ -5,6 +5,136 @@ date: 2024-10-17
 format: revealjs
 ---
 
+## My Background
+
+::: incremental
+-   Ecologist → "Scientific Programmer & Educator"
+
+-   {{< iconify devicon:rstudio >}} = my comfort zone ❤️
+
+-   Attempted (unsuccessfully) to use HPC as PhD student
+
+-   Successfully used HPC as postdoc
+:::
+
+::: notes
+As a PhD student I was more motivated than most to get out of my comfort zone when it came to writing code, but even so, I tried to never leave the comfort of the RStudio IDE unless absolutely necessary.
+:::
+
+## Barriers to HPC use
+
+-   Requirement to use shell commands
+
+-   Using R without an IDE
+
+-   Not seeing HPC resources as "for me"
+
+::: notes
+Even though I could use shell commands and type R code into the terminal, I didn't feel comfortable and it was like taking a *huge* leap backwards.
+
+I had code that *could* run on my laptop (if I leave it on for a week with the fan at top speed), so is it even worth it to figure out HPC?\
+
+\
+I think there are *many* researchers like me, especially in life sciences.
+:::
+
+## Technologies to bridge the gap
+
+<!--# do these with fragments?  Only going to talk about last three -->
+
+1.  GitHub
+2.  Open OnDemand
+3.  `renv` and `pak` R packages
+4.  `targets` R package
+
+::: notes
+Key skills that helped me become comfortable using the HPC without leaving my comfort zone!
+
+1.  GitHub—generally useful to academics, but also a good way to get code onto HPC
+
+2.  Open OnDemand—RStudio server running on HPC back-end
+
+3.  `renv` and `pak` R packages—better package management for R
+
+4.  `targets`—workflow management with extensions to use HPC for parallelization
+
+I'm going to focus on `renv` and `targets` (mabye??? maybe should talk about Open OnDemand??)
+:::
+
+## ![](images/ood-logo.svg){width="250"}
+
+Launch a fully functional RStudio IDE backed by HPC cores
+
+Including:
+
+-   RStudio file pane for upload/download of files
+
+-   RStudio git pane for interacting with git/GitHub
+
+-   Ability to run R code in parallel using all those cores
+
+-   No SLURM submission script necessary!
+
+## `renv` {.smaller}
+
+`renv` makes R projects isolated, portable, and reproducible
+
+1.  Run `renv::init()` locally (or use `renv::snapshot()` if already using `renv`)
+2.  Get project on HPC (e.g. via GitHub)
+3.  `renv` bootstraps itself and prompts user to run `renv::restore()`
+
+![](images/renv-screenshot.png){width="769"}
+
+## `pak`
+
+::: columns
+::: {.column width="50%"}
+-   `pak` offers alternative to `install.packages()`
+
+-   Faster and aware of system dependencies
+
+-   `renv` can optionally use `pak` for package installation
+:::
+
+::: {.column width="50%"}
+![](images/pak-screenshot.png){width="639"}
+:::
+:::
+
+::: notes
+Why is this such a great combination?
+Limits the number of commands and amount of time I have to spend in the shell.
+`ssh` into the HPC, `git clone` my project, `module R` and then `R`.
+`renv` bootstraps itself and `renv::restore()` installs all my R packages.
+:::
+
+## `targets`
+
+-   basic description of using targets for workflow management
+-   pros and cons
+
+## `crew` and `crew.cluster`
+
+-   technical description including `mirai` and `nanonext`
+
+-   `crew::controller_local()` to run targets in parallel R sessions locally or on Open OnDemand
+
+-   `crew.cluster` to use SLURM (or SGE, etc.) jobs as workers.
+
+-   show how you can include SLURM template stuff with mostly just normal R code
+
+-   persistent and semi-transient workers, different workers for different sized targets?
+
+## How we can help bridge the gap
+
+-   Offer workshops on using HPC *without* the command line
+
+-   Target HPC workshops to R/RStudio users
+
+-   Template repos set up to use `targets`, `crew.cluster`, and `renv`
+
+```{=html}
+<!--
 ## Outline
 
 1.  Introduce my background
@@ -35,3 +165,6 @@ format: revealjs
     2.  Template repos customized to your institutions HPC
     3.  Open On Demand workshops
     4.  git + GitHub *in Rstudio* (no or minimal command line)
+    
+-->
+```
