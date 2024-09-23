@@ -1,0 +1,37 @@
+---
+title: "Harnessing the Power of HPC From the Comfort of R"
+author: "Eric R. Scott"
+date: 2024-10-17
+format: revealjs
+---
+
+## Outline
+
+1.  Introduce my background
+    1.  Ecologist turned RSE
+    2.  Attempted (unsuccessfully) to use HPC as PhD student
+    3.  Managed to figure things out as postdoc
+    4.  Finally getting somewhat comfortable as RSE largely due to two technologies I'll talk about today—Open on Demand and the R packages `targets` and `crew`.
+2.  Many researchers (like myself) feel most comfortable inside of RStudio
+    1.  Using shell commands or even using R from the command line may represent a significant barrier
+    2.  May see HPC as "not for me"
+    3.  Many use cases where HPC not strictly necessary, but want to use someone else's CPUs, not work laptop
+3.  Three(?) things to making HPC accessible for these researchers
+    1.  R package management with `renv` and `pak`
+    2.  Open on Demand
+    3.  Workflow management of R code with `targets`
+4.  Open on Demand
+    1.  Create a RStudio session backed by some number of HPC cores
+5.  `targets`
+    1.  workflow management
+        1.  define workflow in single `_targets.R` file
+        2.  define functions for each step (aka "target") with R code
+        3.  run entire workflow (possible in parallel) with `tar_make()`
+    2.  Parallelization handled by `crew` and extensions
+        1.  technical details—mirai, nanonext, etc.
+        2.  `crew.cluster` allows defining workers with SLURM, SGE, etc.
+6.  What we can do to help bridge the gap
+    1.  Workshops on targets (feel free to use my materials)
+    2.  Template repos customized to your institutions HPC
+    3.  Open On Demand workshops
+    4.  git + GitHub *in Rstudio* (no or minimal command line)
