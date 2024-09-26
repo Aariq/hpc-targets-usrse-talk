@@ -271,23 +271,20 @@ This "local" controller also works on Open OnDemand!
 
 ## `crew` technical details
 
-```{mermaid}
-%%| classes: vis-output
-flowchart LR
-    C("<img src='https://wlandau.github.io/crew/logo.svg' width='173' height='200' />" Distributed worker launchers for R) --> |powered by| D
-    D("<img src='https://shikokuchuo.net/mirai/logo.png' width='173' height='200' />" Minimalist async evaluation for R) --> |powered by| E
-    E("<img src='https://shikokuchuo.net/nanonext/logo.png' width='173' height='200' /> R binding for NNG (Nanomsg Next Gen)")
-    click C href "https://wlandau.github.io/crew/"
-    click D href "https://shikokuchuo.net/mirai/"
-    click E href "https://shikokuchuo.net/nanonext/"
-```
+![nanonext](https://shikokuchuo.net/nanonext/logo.png){alt="nanonext" style="vertical-align:middle;" width="75" height="88"} `nanonext`, R bindings for [NNG](https://nng.nanomsg.org/) (Nanomsg Next Gen), which powers...
+
+. . .
+
+![mirai](https://shikokuchuo.net/mirai/logo.png){style="vertical-align:middle" width="75"} `mirai`, a "minimalist async evaluation framework for R", which powers ...
+
+. . .
+
+![](https://wlandau.github.io/crew/logo.svg){style="vertical-align:middle" width="75"} `crew`, a unifying interface for creating distributed worker launchers
 
 ::: notes
--   The `mirai` package is a "minimalist async evaluation framework for R" powered by `NNG` (Nanomsg Next Gen)
+NNG is a "lightweight messaging library"—handles communication between processes
 
--   `crew` extends `mirai` with a unifying interface for worker launchers
-
--   `crew` is extended to work with cluster computing (`crew.cluster`) and AWS (`crew.aws.batch`)
+`crew` is then extended by plugins like `crew.cluster()` to create worker launchers for cluster computing
 :::
 
 ## On the HPC with `crew.cluster`
@@ -310,10 +307,20 @@ crew.cluster::crew_controller_slurm(
 )
 ```
 
-. . . <!--# possibly put these on a separate slide with more info about optimization for HPC.  E.g. setting storage and retrival to "worker" in tar_option_set() -->
+## Optimizing `crew`
 
--   Persistent or semi-transient workers
--   Different controllers for different sized tasks
+-   Use [semi-transient workers](https://wlandau.github.io/crew/articles/introduction.html#tuning-and-auto-scaling) by setting `seconds_idle`
+-   [Different controllers for different sized tasks](https://books.ropensci.org/targets/crew.html#heterogeneous-workers)
+-   [Allow workers to access target store directly to avoid serialization overhead](https://books.ropensci.org/targets/performance.html#worker-storage)
+
+::: notes
+Skip if short on time`crew.cluster` default is persistent SLURM jobs for workers, but can have them shut down after `seconds_idle` and then start new wokers when needed.\
+
+\
+Can create controller groups so that heavier tasks can use SLURM jobs with more cores/RAM\
+\
+Default is that the main process handles all the data, but you can avoid serialization overhead by telling targets that the workers have access to the data store (should be safe assumption on HPC)
+:::
 
 ## Template repository
 
