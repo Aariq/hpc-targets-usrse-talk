@@ -1,0 +1,4 @@
+- source: slides.qmd
+  quarto-pub:
+    - id: 725f354e-3d14-4ab4-af18-aab56b310c50
+      url: 'https://cct-datascience.quarto.pub/scott-usrse24'
