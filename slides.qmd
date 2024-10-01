@@ -5,6 +5,7 @@ affiliation: "University of Arizona"
 date: 2024-10-17
 format: 
   uaz-revealjs:
+    theme: custom.scss
     mermaid: 
       theme: forest
 logo: logo.png
