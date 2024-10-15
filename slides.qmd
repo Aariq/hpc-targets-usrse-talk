@@ -42,7 +42,7 @@ As a PhD student I was more motivated than most to get out of my comfort zone wh
 
 -   Requirement to use shell commands
 
--   Using R without an IDE
+-   Uncomfortable way of editing and running R code
 
 -   Not seeing HPC resources as "for me"
 
@@ -152,16 +152,16 @@ Limits the number of commands and amount of time I have to spend in the shell.
 ``` {.r filename="_targets.R"}
 library(targets)
 tar_source()                                               # <1>
-tar_option_set(packages = c("readr", "dplyr", "ggplot2"))  # <2>
+tar_option_set(packages = c("dplyr", "ggplot2"))  # <2>
 list(                                                      # <3>
   tar_target(file, "data.csv", format = "file"),           # <3>
-  tar_target(data, get_data(file)),                        # <3>
+  tar_target(data, read.csv(file)),                        # <3>
   tar_target(model, fit_model(data)),                      # <3>
   tar_target(plot, plot_model(model, data))                # <3>
 )                                                          # <3>
 ```
 
-1.  Sources all R scripts in `R/`
+1.  Sources all R scripts in `R/` with custom functions `fit_model()` and `plot_model()`
 2.  Define packages needed for pipeline and other options
 3.  Define pipeline
 
@@ -181,14 +181,14 @@ Visualize pipeline with `tar_visnetwork()`
 targets::tar_dir({
   targets::tar_script({
     library(targets)
-    get_data <- function(x) x
     fit_model <- function(x) x
     plot_model <- function(x) x
+    read_csv <- function(x) x
     # tar_source()                                               
-    tar_option_set(packages = c("readr", "dplyr", "ggplot2"))  
+    tar_option_set(packages = c("dplyr", "ggplot2"))  
     list(                                                      
       tar_target(file, "data.csv", format = "file"),           
-      tar_target(data, get_data(file)),                        
+      tar_target(data, read.csv(file)),                        
       tar_target(model, fit_model(data)),                      
       tar_target(plot, plot_model(model, data))                
     )               
@@ -212,10 +212,8 @@ targets::tar_make()
 targets::tar_dir({
   targets::tar_script({
     library(targets)
-    write.csv(iris, "data.csv")
-    get_data <- function(file) {
-      read.csv(file)
-    }
+    write.csv(iris, "data.csv", row.names = FALSE)
+  
     fit_model <- function(data) {
       Sys.sleep(3)
       lm(Petal.Width ~ Species, data = data)
@@ -228,7 +226,7 @@ targets::tar_dir({
     tar_option_set(packages = c("readr", "dplyr", "ggplot2"))
     list(
       tar_target(file, "data.csv", format = "file"),
-      tar_target(data, get_data(file)),
+      tar_target(data, read.csv(file)),
       tar_target(model, fit_model(data)),
       tar_target(plot, plot_model(model, data))
     )
@@ -252,15 +250,15 @@ We can set up a `crew` controller to run targets in parallel.
 library(targets)
 tar_source()                                              
 tar_option_set(
-  packages = c("readr", "dplyr", "ggplot2"),
-  controller = crew::crew_controller_local(workers = 3) # <1>
+  packages = c("dplyr", "ggplot2"),
+  controller = crew::crew_controller_local(workers = 3) #<1>
 ) 
 list(                                                     
   tar_target(file, "data.csv", format = "file"),          
-  tar_target(data, get_data(file)),                       
-  tar_target(model1, fit_model1(data)),   #<2>                  
+  tar_target(data, read.csv(file)),                       
+  tar_target(model1, fit_model1(data)), #<2>                  
   tar_target(model2, fit_model2(data)), #<2>
-  tar_target(model3, fit_model3(data)) #<2>
+  tar_target(model3, fit_model3(data))  #<2>
 )  
 ```
 
