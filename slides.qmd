@@ -186,7 +186,6 @@ targets::tar_dir({
     library(targets)
     fit_model <- function(x) x
     plot_model <- function(x) x
-    read_csv <- function(x) x
     # tar_source()                                               
     tar_option_set(packages = c("dplyr", "ggplot2"))  
     list(                                                      
