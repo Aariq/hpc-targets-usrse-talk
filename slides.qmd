@@ -5,6 +5,7 @@ affiliation: "University of Arizona"
 date: 2024-10-17
 format: 
   uaz-revealjs:
+    embed-resources: true
     theme: custom.scss
     mermaid: 
       theme: forest
@@ -14,7 +15,7 @@ filters:
   - reveal-header
 code-annotations: hover
 link-external-newwindow: true
-chalkboard: true
+chalkboard: false
 ---
 
 ## My Background
@@ -366,13 +367,9 @@ crew.cluster::crew_controller_slurm(
 
 [![nanonext logo](https://shikokuchuo.net/nanonext/logo.png){alt="nanonext" style="vertical-align:middle;" width="75" height="88"}](https://shikokuchuo.net/nanonext/) `nanonext`, R bindings for [NNG](https://nng.nanomsg.org/) (Nanomsg Next Gen), which powers...
 
-. . .
+[![mirai logo](https://shikokuchuo.net/mirai/logo.png){style="vertical-align:middle" width="75"}](https://shikokuchuo.net/mirai/) `mirai`, a "minimalist async evaluation framework for R", which powers...
 
-[![mirai logo](https://shikokuchuo.net/mirai/logo.png){style="vertical-align:middle" width="75"}](https://shikokuchuo.net/mirai/) `mirai`, a "minimalist async evaluation framework for R", which powers ...
-
-. . .
-
-[![crew logo](https://wlandau.github.io/crew/logo.svg){style="vertical-align:middle" width="75"}](https://wlandau.github.io/crew/) `crew`, a unifying interface for creating distributed worker launchers
+[![crew logo](https://raw.githubusercontent.com/wlandau/crew/refs/heads/main/man/figures/logo.png){style="vertical-align:middle" width="75"}](https://wlandau.github.io/crew/) `crew`, a unifying interface for creating distributed worker launchers
 
 ::: notes
 NNG is a "lightweight messaging library"—handles communication between processes
